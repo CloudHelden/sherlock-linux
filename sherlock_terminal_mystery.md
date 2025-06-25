@@ -561,52 +561,107 @@ Mit welchem Flag behält `cp` **alle** Zeitstempel und Rechte?
 
 ## Kapitel 7 – `mv`
 
-### Szene 📑
-
-*Themse‑Promenade, 02:17 Uhr.* Nebelschwaden fegen über schwankende Gaslampen. Holmes entrollt `secret.txt`; das Papier raschelt wie Schwingen einer Nachteule. „Ein derart plakativer Name schreit nach Misstrauen.“  
-Er schiebt die Datei in einen Umschlag mit Emblem eines unscheinbaren Regenschirm‑Herstellers. Dein Befehl `mv -b secret.txt umbrella_letter.txt` ist das digitale Pendant: ein lautloser Identitäts­wechsel, mit automatisch gesichertem Zwilling (`-b`) – für den Fall, dass Scotland Yard Beweiskette fordert.
-
-### Was macht der Befehl?
-
-`mv` **verschiebt oder benennt** Dateien und Ordner.  
-* `-i`: fragt vor Überschreiben.  
-* `-b`: legt Sicherheitskopie (`~`) an.  
-* `-n`: überschreibt nie.
-
-### Warum wichtig?
-
-- **Umstrukturieren** – Projekte neu ordnen.
-- **Tarnung** – sensible Dateien umbenennen.
-
-### Cheat‑Sheet
-
-```bash
-mv old   new         # rename
-mv file  dir/        # move
-mv -i    ...         # interactive prompt
-mv -b    ...         # Backup (~)
-```
-
-### Beispiele aus dem Fall
-
-```bash
-$ mv -b ~/Investigation/secret.txt umbrella_letter.txt
-```
-
-### Hands‑on‑Mission 🎩
-
-`mv -i ~/Investigation/footprint.txt ~/Beweisarchiv/evidence.dat` (mit Rückfrage).
-
-### Holmesian Insight
-
-> Datei versehentlich überschrieben? Das `~`‑Backup von `mv -b` rettet den alten Inhalt.
-
-### Quizfrage
-
-Flag für automatisches Backup? → ``
+> **Lernziel:** Dateien/Ordner sicher umbenennen oder verschieben – Überschreiben vermeiden – automatische Backups nutzen  
 
 ---
 
+### 📑 Szene
+
+*Themse‑Promenade, 02 : 17 Uhr.*  
+Nebel­schwaden fegen über schwankende Gas­lampen. Holmes entrollt **secret.txt**; das Papier raschelt wie eine Nachteule.
+
+> „Ein derart plakativer Name schreit nach Misstrauen.“
+
+Er schiebt das Dokument in einen Umschlag eines unscheinbaren Regenschirm‑Herstellers.  
+Dein Kommando `mv -b secret.txt umbrella_letter.txt` ist das digitale Pendant – ein **lautloser Identitäts­wechsel**.  
+`-b` erstellt dabei automatisch eine Sicherheitskopie (`secret.txt~`) – falls Scotland Yard später die Beweiskette prüft.
+
+---
+
+### 🛠️ Was macht `mv`?
+
+| Option | Wirkung | Beispiel |
+|--------|---------|----------|
+| _(ohne)_ | Datei/Ordner verschieben **oder** umbenennen | `mv foo.txt bar.txt` |
+| `-i` | **i**nteraktiv – fragt, bevor etwas überschrieben wird | `mv -i log.txt backup/` |
+| `-b` | **b**ackup – erstellt Kopie `<name>~` vor dem Überschreiben | `mv -b draft.txt final.txt` |
+| `-n` | **n**o‑clobber – überschreibt nie (still schweigend) | `mv -n *.jpg gallery/` |
+
+> **Merke:** `mv` überschreibt standard­mäßig **kommentarlos**. Nutze mindestens `-i` oder `-b`, wenn dir Daten wichtig sind.
+
+---
+
+### 🚩 Warum wichtig?
+
+1. **Projekt­struktur ändern** – Dateien in neue Ordner sortieren.  
+2. **Refactor** – Code‑Module in Micro‑Services verschieben.  
+3. **Tarnung & Privacy** – sensible Dateien umbenennen (`secret.txt` ➜ `umbrella_letter.txt`).  
+4. **Rollback** – mit `-b` erhältst du automatisch eine Kopie für den Notfall.
+
+---
+
+### 📑 Cheat‑Sheet
+
+```bash
+mv OLD NEW                 # umbenennen
+mv FILE DIR/               # verschieben
+mv -i FILE DIR/            # nachfragen
+mv -b FILE NEW             # Backup (~) vor Überschreiben
+mv -n FILE DIR/            # nie überschreiben
+```
+
+---
+
+### ⚡ Beispiel aus dem Fall
+
+```bash
+# Gehe in den Ermittlungsordner
+cd ~/Investigation
+
+# Umbennen & Backup anlegen
+mv -b secret.txt umbrella_letter.txt
+# erzeugt zusätzlich: secret.txt~
+```
+
+---
+
+### 👣 Hands‑on‑Mission 🎩
+
+1. **Wechsle in den Ermittlungsordner**  
+   ```bash
+   cd ~/Investigation
+   ```
+
+2. **Verschiebe den Schuhabdruck ins Beweisarchiv** (mit Rückfrage)  
+   ```bash
+   mv -i footprint.txt ~/Beweisarchiv/evidence.dat
+   ```
+
+3. **Kontrolliere**, dass im Zielordner `evidence.dat` liegt und im Quellordner `footprint.txt` verschwunden ist.  
+   ```bash
+   ls ~/Beweisarchiv
+   ```
+
+4. **Teste den `-n`‑Schutz**  
+   ```bash
+   mv -n umbrella_letter.txt ~/Beweisarchiv/   # wird NICHT überschreiben
+   echo "Exit-Code: $?"                        # sollte 1 oder 0? prüfen
+   ```
+
+> ✏️ Notiere, ob eine Backup‑Datei (`umbrella_letter.txt~`) entstanden ist.
+
+---
+
+### 🧠 Holmesian Insight
+
+> Ein versehentlich überschriebenes Dokument? Schau nach einer Datei mit `~` am Ende – das ist dein Rettungs­anker, den `mv -b` automatisch erzeugt.
+
+---
+
+### ❓ Quizfrage
+
+Welches Flag erstellt automatisch eine **Backup‑Kopie** mit Tilde (`~`) am Ende?  
+<details><summary>Antwort anzeigen</summary><code>-b</code></details>
 ## Kapitel 8 – `mkdir`
 
 ### Szene 🏛️
