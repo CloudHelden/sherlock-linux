@@ -116,19 +116,33 @@ Welches Flag **löst** Symlinks auf und zeigt den physischen Pfad?
 Ein nervöser Archivbeauftragter wischt sich den Schweiß von der Stirn: „Es fehlen Schubladen – aber welche?“  
 Holmes gleitet mit Handschuhspitzen über Messingschilder, murmelt „inventarium totius“ – dann sieht er dich an. Das Terminal, auf einem improvisierten Pult aus Kisten, wartet. Deine Aufgabe: mit einem simplen `ls -la` Licht in das Schattenregister der Dateien zu bringen.
 
+### 🗺️ Vorbereitung – kurz zu `cd`
+
+Bevor du irgendeinen `ls`-Befehl ausprobierst, musst du im **richtigen Ordner** stehen.  
+Nutze dafür `cd` (change directory):
+
+```bash
+cd ~/Investigation          # in den Ermittlungsordner wechseln
+pwd                         # Kontrolle: Pfad sollte …/Investigation lauten
+```
+---
+
 ### Was macht der Befehl?
 
 `ls` listet **Dateien und Unterordner**.  
-* `-l`: Details (Größe, Datum, Rechte).  
-* `-a`: auch versteckte Dateien (Dot‑Files) anzeigen.  
-* `-h`: menschen­lesbare Größen zusammen mit `-l`.
+* `-l` Details (Größe, Datum, Rechte)  
+* `-a` auch versteckte Dateien (Dot-Files) anzeigen  
+* `-h` menschen­lesbare Größen (in Kombi mit `-l`)
+
+---
 
 ### Warum wichtig?
 
-- **Schnell­inventur** – Inhalt & versteckte Dateien sichtbar machen.
-- **Rechte‑Check** – wer darf was lesen/schreiben.
-- **Sortierte Listen** – mit `--sort` und `--group-directories-first`.
+* **Schnell­inventur** – Inhalt & versteckte Dateien sichtbar machen  
+* **Rechte-Check** – wer darf was lesen/schreiben  
+* **Sortierte Listen** – z. B. mit `--sort` oder `--group-directories-first`
 
+---
 ### Cheat‑Sheet
 
 ```bash
@@ -138,27 +152,42 @@ ls -la          # inklusive versteckter Dateien
 ls -lh          # Größen in KB/MB/GB
 ls -lt          # sortiert nach Datum absteigend
 ```
-
 ### Beispiele aus dem Fall
 
 ```bash
-$ ls -la ~/Investigation | head
-$ ls -lh --group-directories-first /var/spool/telegraphs
+cd ~/Investigation
+ls -la | head                       # erste Einträge anzeigen
+
+ls -lh --group-directories-first /var/spool/telegraphs
 ```
 
-### Hands‑on‑Mission 🗂️
+---
 
-1. Führe `ls -l` in `~/Investigation` aus.
-2. Notiere die Rechte (d rwx …) von `mysterious.bin`.
-3. Führe `ls -lrt` – welcher Eintrag ist der jüngste?
+### Hands-on-Mission 🗂️
+
+1. Wechsle in den Ermittlungsordner  
+   ```bash
+   cd ~/Investigation
+   ```
+2. Führe `ls -l` aus und **notiere** die Rechte (`drwx` …) von `mysterious.bin`.
+3. Liste chronologisch – jüngstes zuerst – mit  
+   ```bash
+   ls -lrt
+   ```  
+   Welcher Eintrag steht jetzt ganz unten?
+
+---
 
 ### Holmesian Insight
 
-> `ls -ld */` listet *nur* Verzeichnisse im aktuellen Ordner – praktisch für große Code‑Repos.
+> `ls -ld */` listet **nur** Verzeichnisse im aktuellen Ordner – praktisch für große Repositories.
+
+---
 
 ### Quizfrage
 
-Flag für menschen­lesbare Größen? → ``
+**Welches Flag sorgt für menschen­lesbare Größenangaben?**  
+<details><summary>Antwort anzeigen</summary><code>-h</code></details>
 
 ---
 
