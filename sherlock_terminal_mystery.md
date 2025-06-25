@@ -250,53 +250,102 @@ Welches Kürzel springt ins vorherige Verzeichnis? → ``
 
 ---
 
-## Kapitel 4 – `touch`
+## Kapitel 4 – `touch`
 
-### Szene 🖋️
+> **Lernziel:** Dateien anlegen ➜ Zeitstempel verstehen ➜ Platzhalter erstellen
 
-*Posthof am Themse‑Kai, 22:30 Uhr.* Nebelwellen rollen vom Fluss, Sirenen eines fernen Dampfschiffs heulen. Holmes kniet im Schein einer Bullaugen‑Laterne neben einem Abdruck im gemusterten Pflaster – eine Schuhsohle mit ungewöhnlichem Zickzack‑Profil.  
-„Wir brauchen digitale Kreide, Watson. Einen Punkt, zu dem wir zurückkehren können.“  
-Du öffnest das Terminal auf einem klapprigen A‑Speicher‑Laptop, dessen Ventilator gegen die feuchte Luft kämpft, und schlägst mit `touch footprint.txt` einen stillen Pfosten ins Dateisystem.
+---
 
-### Was macht der Befehl?
+### 🖋️ Szene
 
-`touch` **legt eine Datei an** oder **aktualisiert deren Datum/Zeit**.  
-* `-a`: nur Zugriffszeit anpassen.  
-* `-m`: nur Änderungszeit anpassen.
+*Posthof am Themse-Kai, 22 : 30 Uhr.*  
+Dichter Nebel wabert über altersschwärz­liches Kopfsteinpflaster. Sirenen eines fernen Dampfschiffs hallen, Möwen schreien.  
+Holmes kniet im Kegel einer Bullaugen-Laterne und deutet auf einen klaren Schuhabdruck mit Zickzack-Profil.
 
-### Warum wichtig?
+> „Digitale Kreide, Watson. Wir markieren diesen Fund für spätere Analysen.“
 
-- **Platzhalter** – leere Config‑Dateien im Repo。
-- **Time‑Frogging** – Stempel ändern, um Build‑Trigger auszulösen.
+Du klappst deinen A-Speicher-Laptop auf; der Ventilator kämpft gegen die feuchte Luft.  
+Ein leiser Klick – `touch footprint.txt` – und ein unsichtbarer Pfosten steht nun im Dateisystem.
 
-### Cheat‑Sheet
+---
+
+### 🛠️ Was macht `touch`?
+
+| Option | Wirkung                              | Praxis-Beispiel                   |
+|--------|--------------------------------------|-----------------------------------|
+| _(ohne)_ | legt Datei an **oder** aktualisiert beide Zeitstempel | `touch neueNotiz.txt` |
+| `-a`    | nur *Access Time* ändern            | `touch -a geheim.txt`             |
+| `-m`    | nur *Modify Time* ändern            | `touch -m bericht.md`             |
+| `-t`    | manuellen Zeitstempel setzen (YYYYMMDDhhmm.ss) | `touch -t 189512120101 clue1` |
+
+> Eine Datei sieht nach dem Befehl identisch aus – nur ihre Metadaten wurden verändert.
+
+---
+
+### 🎯 Warum wichtig?
+
+1. **Platzhalter** – leere Config- oder Log-Files im Git-Repo festhalten.  
+2. **Build-Trigger** – bei `make` oder CI/CD Force-Rebuild auslösen.  
+3. **Forensik** – Zeitstempel zurücksetzen, um Reihen­folgen sichtbar zu machen.
+
+---
+
+### 📑 Cheat-Sheet
 
 ```bash
-touch FILE                  # neu oder Zeit aktualisieren
-touch -a FILE               # nur Access‑Zeit
-touch -m FILE               # nur Modify‑Zeit
-touch -t YYYYMMDDhhmm.ss F  # manueller Stempel
+touch file              # neu oder Zeit aktualisieren
+touch -a file           # nur Zugriffszeit
+touch -m file           # nur Änderungszeit
+touch -t 202501010000.00 file   # auf 1. Jan 2025 00:00 setzen
 ```
 
-### Beispiele aus dem Fall
+---
+
+### 🗂️ Beispiele aus dem Fall
 
 ```bash
-$ touch ~/Investigation/footprint.txt
-$ touch -a -t 189512120101 ~/Investigation/footprint.txt
+# 1) Abdruck markieren
+touch ~/Investigation/footprint.txt
+
+# 2) Historischen Stempel simulieren (12. Dez 1895, 00:01)
+touch -a -t 189512120001 ~/Investigation/footprint.txt
 ```
 
-### Hands‑on‑Mission 👣
+---
 
-Aktualisiere `footprint.txt` mit `touch -m`, dann erstelle Platzhalter `clue1` bis `clue3`.
+### 👣 Hands-on-Mission
 
-### Holmesian Insight
+1. **In den Ermittlungsordner wechseln**
+   ```bash
+   cd ~/Investigation
+   ```
+2. **Änderungszeit aktualisieren**
+   ```bash
+   touch -m footprint.txt
+   ```
+3. **Drei neue Hinweise anlegen**
+   ```bash
+   touch clue1 clue2 clue3
+   ```
+4. **Kontrolliere die Zeitstempel**
+   ```bash
+   ls -l --time=modify footprint.txt clue*
+   ```
 
-> Build‑Systeme wie *make* nutzen Zeitstempel. Ein falscher Stempel kann komplette Re‑Compiles erzwingen – oder verhindern.
+> ✏️ Notiere, welche Datei jetzt den *neuesten* Änderungszeitstempel trägt.
 
-### Quizfrage
+---
 
-Flag für NUR Zugriffs‑Zeitstempel? → ``
+### 🧠 Holmesian Insight
 
+> **Build-Systeme** wie `make` oder Ninja verlassen sich **komplett** auf Zeitstempel. Ein versehentlich falsches Datum kann einen Full-Rebuild erzwingen – oder verhindern, dass wichtige Dateien neu gebaut werden.
+
+---
+
+### ❓ Quizfrage
+
+Welches Flag aktualisiert **nur den Zugriffs-Zeitstempel**?  
+<details><summary>Antwort anzeigen</summary><code>-a</code></details>
 ---
 
 ## Kapitel 5 – `cat` & `less`
