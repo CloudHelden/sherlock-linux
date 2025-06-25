@@ -1,11 +1,15 @@
 # Sherlock Holmes – **The Case of the Purloined Packet** 🕵️‍♂️
 
+![Sherlock 1](/bilder/sherlock1.jpeg)
+
 
 London, Dezember 1895: Dichter Kohlerauch legt sich wie ein Leichentuch auf die Stadt. In den Katakomben des Innenministeriums wurde ein Band streng geheimer Telegramme gestohlen. Die Spur führt in einen experimentellen **Ubuntu‑Mainframe** – dampfbetrieben, zahnradsurrend, gespeist von Lochkarten und Elektronen­röhren.
 
 Inspector Lestrade ist ratlos. **Sherlock Holmes** – Meister der Deduktion – und **du** – sein neuer Technik‑Conduktor – sollen den Täter entlarven. Jeder Linux‑Befehl wird zur Sprungmarke in diesem Labyrinth aus Kupfer­drähten und Null‑Byte‑Schlupfwinkeln.
 
 > *„Mein lieber Freund, wer der Shell lauscht, hört die Wahrheit der Maschinen.“* – S. Holmes
+
+🎧 **Sherlock-Playlist:** [Sherlock Soundtrack](https://open.spotify.com/intl-de/album/4eouZPpapIAd6TvYkUTGDq?si=2HfBDGdHSpOniCuJbUzL2A)
 
 🏁 **Erstsetup:**  Führe das Bash‑Skript `` aus – es erzeugt alle Beispiel­ordner & Dateien, die wir im Abenteuer nutzen.
 
@@ -90,6 +94,9 @@ Welches Flag löst Symlinks? → ``
 
 ## Kapitel 2 – `ls`
 
+![Sherlock 2](/bilder/sherlock2.jpeg)
+
+
 ### Szene 📂
 
 *Innenministerium, Archiv‑Souterrain, 08:15 Uhr.* Eine gewundene gusseiserne Treppe führt hinab in dunstige Tiefe. Wasser tropft in Pfützen; die Luft schmeckt nach altem Papier und feuchtem Ziegel. Zahllose Aktenschränke, bis zur Decke gestapelt, ziehen sich in Korridore davon wie Regimenter. Gaslampen werfen flackernde Lichtkegel, die Schatten tanzen lassen.  
@@ -143,6 +150,9 @@ Flag für menschen­lesbare Größen? → ``
 ---
 
 ## Kapitel 3 – `cd`
+
+![Sherlock 3](/bilder/sherlock3.jpeg)
+
 
 ### Szene 🚕
 
