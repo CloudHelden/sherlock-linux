@@ -182,12 +182,6 @@ ls -lh --group-directories-first /var/spool/telegraphs
 
 > `ls -ld */` listet **nur** Verzeichnisse im aktuellen Ordner – praktisch für große Repositories.
 
----
-
-### Quizfrage
-
-**Welches Flag sorgt für menschen­lesbare Größenangaben?**  
-<details><summary>Antwort anzeigen</summary><code>-h</code></details>
 
 ---
 
