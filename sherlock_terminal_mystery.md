@@ -1,4 +1,4 @@
-# Sherlock Holmes – **The Case of the Purloined Packet** 🕵️‍♂️
+# Sherlock Holmes – **Der Fall des gestohlenen Pakets 🕵️‍♂️** 
 
 ![Sherlock 1](/bilder/sherlock1.jpeg)
 
