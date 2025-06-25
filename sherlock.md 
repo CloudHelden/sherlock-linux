@@ -1,0 +1,647 @@
+# Sherlock Holmes – The Case of the Purloined Packet 🕵️‍♂️
+
+*Ein vollständiger Linux‑Krimi in 15 Lektionen – inklusive Erklärungen, Cheats und Aufgaben*
+
+London, 1895 ½: Unbekannte haben vertrauliche Telegraphen‑Depeschen entwendet und in einem dampfbetriebenen **Ubuntu‑Mainframe** versteckt. Inspector Lestrade ruft **Sherlock Holmes** – und Holmes wählt **dich** als technischen Assistenten. Jeder Linux‑Befehl ist ein Puzzleteil, das zum Täter führt.
+
+> *„Die Command‑Line, Watson, ist der zuverlässigste aller Informanten.“* – S. Holmes
+
+🏁 **Voraussetzung:** Führe zunächst das Bash‑Script `setup_sherlock.sh` aus. Es legt alle Dateien & Verzeichnisse an, die in den Kapiteln verwendet werden.
+
+---
+
+## 📜 Inhaltsverzeichnis
+
+1. [`pwd`](#kapitel-1) – Standort prüfen
+2. [`ls`](#kapitel-2) – Dateien sichten
+3. [`cd`](#kapitel-3) – Verzeichnis wechseln
+4. [`touch`](#kapitel-4) – Spuren legen
+5. [`cat` & `less`](#kapitel-5) – Akten lesen
+6. [`cp`](#kapitel-6) – Beweise kopieren
+7. [`mv`](#kapitel-7) – Umbenennen & verschieben
+8. [`mkdir`](#kapitel-8) – Verstecke bauen
+9. [`rm`](#kapitel-9) – Spuren tilgen
+10. [`file`](#kapitel-10) – Typ bestimmen
+11. [`find`](#kapitel-11) – Stadt durchkämmen
+12. [`history`](#kapitel-12) – Chronik prüfen
+13. [`man`, `help`, `whatis`](#kapitel-13) – Doku nutzen
+14. [`alias`](#kapitel-14) – Abkürzungen
+15. [`exit`](#kapitel-15) – Fall beenden
+16. [Lösung](#lösung-spoiler)
+
+---
+
+## Kapitel 1 – `pwd`
+
+### Szene
+
+Baker Street, früher Morgen. Holmes zeigt auf das Terminal: „Wo sind wir, Watson?“
+
+### Was macht der Befehl?
+
+`pwd` (**p**rint **w**orking **d**irectory) gibt den absoluten Pfad des aktuellen Verzeichnisses aus.
+
+### Warum brauche ich ihn?
+
+* Orientierung in tiefen Projektstrukturen
+* Logging in Skripten („Startpfad notieren“)
+
+### Cheat Sheet
+
+```bash
+pwd          # logischer Pfad
+pwd -P       # physischer Pfad (Symlinks auflösen)
+```
+
+*Symlink = symbolischer Link, eine Art Weiterleitung. `pwd -P` zeigt den echten Speicherort.*
+
+### Beispiele aus dem Fall
+
+```bash
+$ pwd
+/home/holmes/Investigation
+$ pwd -P
+```
+
+### Hands‑on Mission 🔍
+
+Führe `pwd` aus und notiere den Pfad – dein Basislager.
+
+### Holmesian Insight
+
+> Bei automatisierten Backups prüft `pwd` vorab, ob du im richtigen Ordner startest.
+
+### Quizfrage
+
+**Wie zeigst du den physischen Pfad?** → `pwd -P`
+
+---
+
+## Kapitel 2 – `ls`
+
+### Szene
+
+Archivraum des Innenministeriums. Akten liegen überall – eine schnelle Auflistung muss her.
+
+### Was macht der Befehl?
+
+`ls` listet Dateien und Verzeichnisse.
+
+### Warum brauche ich ihn?
+
+* Überblick über Inhalte & Rechte
+* Anzeigen versteckter Dot‑Files (`-a`)
+
+### Cheat Sheet
+
+```bash
+ls            # Kurzliste
+ls -l         # Langformat
+ls -a         # inkl. versteckter Dateien
+ls -lh        # menschenlesbare Größen
+ls -la        # Langformat + versteckte Dateien
+```
+
+### Beispiele aus dem Fall
+
+```bash
+$ ls -la /var/spool/telegraphs
+```
+
+### Hands‑on Mission 🗂️
+
+Vergleiche `ls` und `ls -la` in `~/Investigation`. Welche Dot‑Files findest du?
+
+### Holmesian Insight
+
+> `ls --color` (Standard auf Ubuntu) hebt Dateitypen farblich hervor – erkennt man schnell falsche Endungen.
+
+### Quizfrage
+
+**Option für menschenlesbare Größen?** → `-h`
+
+---
+
+## Kapitel 3 – `cd`
+
+### Szene
+
+Kutsche Richtung `/var/log`. Du wechselst den Pfad, während Regen aufs Dach trommelt.
+
+### Was macht der Befehl?
+
+`cd` ändert das aktuelle Arbeitsverzeichnis.
+
+### Warum brauche ich ihn?
+
+* Navigation zwischen Projekt‑Ordnern
+* Temporär Logs oder Backups prüfen
+
+### Cheat Sheet
+
+| Kürzel | Bedeutung           | Beispiel |
+| ------ | ------------------- | -------- |
+| `..`   | ein Ordner hoch     | `cd ..`  |
+| `~`    | Home‑Verzeichnis    | `cd ~`   |
+| `-`    | letztes Verzeichnis | `cd -`   |
+
+### Beispiele aus dem Fall
+
+```bash
+$ cd /var/log
+$ cd -                # zurück zur Baker Street
+```
+
+### Hands‑on Mission 🚕
+
+`cd ~/Investigation` → `cd /tmp` → `cd -` → `pwd` prüfen.
+
+### Holmesian Insight
+
+> Mit Tab‑Completion (`cd /va<Tab>`) vermeidest du Tippfehler.
+
+### Quizfrage
+
+**Kürzel für Rücksprung?** → `-`
+
+---
+
+## Kapitel 4 – `touch`
+
+### Szene
+
+Im Posthof markiert ihr den Fundort: eine neue Datei als „Kreidekreis“.
+
+### Was macht der Befehl?
+
+`touch` erstellt leere Dateien oder ändert Zeitstempel.
+
+### Warum brauche ich ihn?
+
+* Platzhalter anlegen
+* Zeitstempel testen oder fälschen
+
+### Cheat Sheet
+
+```bash
+touch FILE                 # neue Datei
+touch -a FILE              # nur Zugriffszeit ändern
+touch -t 202501011200 FILE # manueller Zeitstempel
+```
+
+### Beispiele aus dem Fall
+
+```bash
+$ touch ~/Investigation/footprint.txt
+```
+
+### Hands‑on Mission 👣
+
+Aktualisiere den Zeitstempel von `footprint.txt` mit `-a` und erstelle `clue1…3`.
+
+### Holmesian Insight
+
+> Ein frischer *mtime* kann Suchskripte in die Irre führen.
+
+### Quizfrage
+
+**Welches Flag ändert nur den Zugriffs‑Zeitstempel?** → `-a`
+
+---
+
+## Kapitel 5 – `cat` & `less`
+
+### Szene
+
+Zurück in 221B: Eine kurze Notiz liest du mit `cat`, das Logbuch mit `less`.
+
+### Was machen die Befehle?
+
+* `cat` zeigt (oder verkettet) Dateien sofort.
+* `less` zeigt Inhalte seitenweise, mit Suche & Scroll.
+
+### Warum brauche ich sie?
+
+* Kleinere Dateien schnell ansehen (`cat note.txt`)
+* Große Logs bequem durchsuchen (`less server.log`)
+
+### Cheat Sheet
+
+| Befehl        | Zweck               |
+| ------------- | ------------------- |
+| `cat -n FILE` | Zeilennummern       |
+| `/Suchwort`   | Suche in *less*     |
+| `Space`/`b`   | vor/zurück blättern |
+| `q`           | beenden             |
+
+### Beispiele aus dem Fall
+
+```bash
+$ cat ~/Investigation/note.txt
+$ less ~/Investigation/server.log
+```
+
+### Hands‑on Mission 📜
+
+Suche in `server.log` nach „Suspicious“ (`/Suspicious`).
+
+### Holmesian Insight
+
+> Drücke `&` in *less*, um nur Zeilen mit Muster anzuzeigen – Mini‑Grep.
+
+### Quizfrage
+
+**Taste zum Verlassen von *less*?** → `q`
+
+---
+
+## Kapitel 6 – `cp`
+
+### Szene
+
+Bahndepot Kings Cross: *Dossier 42* muss ans Yard, ohne Original zu verlieren.
+
+### Was macht der Befehl?
+
+`cp` kopiert Dateien oder Ordner.
+
+### Warum brauche ich ihn?
+
+* Backups erstellen
+* Dateien für Tests duplizieren
+
+### Cheat Sheet
+
+```bash
+cp SOURCE TARGET          # Datei
+cp -r DIR TARGET_DIR      # Ordner rekursiv
+cp -i FILE TARGET         # Nachfragen
+cp -v ...                 # ausführlich
+```
+
+### Beispiele aus dem Fall
+
+```bash
+$ cp -ri -v ~/Investigation/dossier ~/Archive/Case42/
+```
+
+### Hands‑on Mission 🗄️
+
+Kopiere `~/Investigation/dossier` rekursiv nach `~/Archive/Case42`, jede Überschreibung bestätigen.
+
+### Holmesian Insight
+
+> Mit `cp -r --parents` bleibt Verzeichnisstruktur erhalten.
+
+### Quizfrage
+
+**Flag für rekursives Kopieren?** → `-r`
+
+---
+
+## Kapitel 7 – `mv`
+
+### Szene
+
+Eine Datei `secret.txt` braucht Tarnnamen und neuen Standort.
+
+### Was macht der Befehl?
+
+`mv` verschiebt oder benennt.
+
+### Warum brauche ich ihn?
+
+* Refactoring von Projekt-Strukturen
+* Dateien tarnen
+
+### Cheat Sheet
+
+```bash
+mv OLD NEW        # umbenennen
+mv FILE DIR/      # verschieben
+mv -i ...         # nachfragen
+mv -b ...         # Backup (~)
+```
+
+### Beispiele aus dem Fall
+
+```bash
+$ mv ~/Investigation/secret.txt umbrella_letter.txt
+```
+
+### Hands‑on Mission 🎩
+
+`mv -i ~/Investigation/footprint.txt ~/Beweisarchiv/evidence.dat`
+
+### Holmesian Insight
+
+> Auf derselben Partition ist `mv` blitzschnell – nur Verzeichnis­einträge ändern sich.
+
+### Quizfrage
+
+**Option für automatisches Backup?** → `-b`
+
+---
+
+## Kapitel 8 – `mkdir`
+
+### Szene
+
+Scotland Yard: Ein geheimes Archiv wird aufgebaut.
+
+### Was macht der Befehl?
+
+`mkdir` erstellt Verzeichnisse.
+
+### Warum brauche ich ihn?
+
+* Projekt‑ oder Backup‑Strukturen anlegen
+
+### Cheat Sheet
+
+```bash
+mkdir DIR           # einzelner Ordner
+mkdir -p A/B/C      # komplette Pfadkette
+```
+
+### Beispiele aus dem Fall
+
+```bash
+$ mkdir -p ~/ScotlandYard/Case42/Revolver
+```
+
+### Hands‑on Mission 🏰
+
+Erstelle `~/Holmes/Archive/1895/Blackwood` in einem Befehl.
+
+### Holmesian Insight
+
+> `mkdir -vp` zeigt jede neu angelegte Ebene – nützlich in Skripten.
+
+### Quizfrage
+
+**Flag für Zwischenverzeichnisse?** → `-p`
+
+---
+
+## Kapitel 9 – `rm`
+
+### Szene
+
+`trap.sh` wird entschärft, Spurverzeichnis gelöscht.
+
+### Was macht der Befehl?
+
+`rm` löscht Dateien oder Ordner.
+
+### Warum brauche ich ihn?
+
+* Aufräumen temporärer Daten
+
+### Cheat Sheet
+
+```bash
+rm FILE           # Datei
+rm -i FILE        # interaktiv
+rm -r DIR         # Ordner rekursiv
+rm -rf DIR        # rekursiv + force
+```
+
+### Beispiele aus dem Fall
+
+```bash
+$ rm -i /tmp/trap.sh
+$ rm -rf /tmp/footprints
+```
+
+### Hands‑on Mission 🔥
+
+Lösche `trap.sh` interaktiv, dann `/tmp/footprints` ohne Rückfrage.
+
+### Holmesian Insight
+
+> `rm -I` fragt nur, wenn mehr als drei Dateien betroffen sind – guter Kompromiss.
+
+### Quizfrage
+
+**Flag‑Kombi für stilles rekursives Löschen?** → `-rf`
+
+---
+
+## Kapitel 10 – `file`
+
+### Szene
+
+Labor 221B: Ist `mysterious.bin` gefährlicher Code?
+
+### Was macht der Befehl?
+
+`file` erkennt Dateitypen anhand Signatur.
+
+### Warum brauche ich ihn?
+
+* Getarnte Dateien enttarnen
+* MIME‑Typ prüfen
+
+### Cheat Sheet
+
+```bash
+file FILE1 FILE2
+file -i FILE       # MIME-Typ
+```
+
+### Beispiele aus dem Fall
+
+```bash
+$ file ~/Investigation/mysterious.bin
+$ file ~/LightBackup/evidence.jpg
+```
+
+### Hands‑on Mission 🔬
+
+Prüfe, ob `evidence.jpg` wirklich ein JPEG ist.
+
+### Holmesian Insight
+
+> Viele Malware tarnt sich als `.jpg`. `file` deckt das sofort auf.
+
+### Quizfrage
+
+**Befehl zur Typprüfung?** → `file`
+
+---
+
+## Kapitel 11 – `find`
+
+### Szene
+
+Die *Baker Street Irregulars* suchen, du durchkämmst `/var/spool/telegraphs`.
+
+### Was macht der Befehl?
+
+`find` durchsucht Verzeichnisse nach Kriterien.
+
+### Warum brauche ich ihn?
+
+* Forensische Suche
+* Massenaktionen mit `-exec`
+
+### Cheat Sheet
+
+```bash
+find PATH -name "*.log"
+find PATH -type f -mtime -1
+find PATH -size +100M
+find PATH -name "*.conf" -exec grep "Port" {} +
+```
+
+### Beispiele aus dem Fall
+
+```bash
+$ find /var/spool/telegraphs -name "*.tgf"
+```
+
+### Hands‑on Mission 🐕
+
+Suche `.conf`‑Dateien in `/etc`, jünger als 7 Tage:
+
+```bash
+find /etc -type f -name "*.conf" -mtime -7 2>/dev/null
+```
+
+### Holmesian Insight
+
+> `-printf '%M %s %p\n'` gibt Rechte, Größe & Pfad – perfekt für Berichte.
+
+### Quizfrage
+
+**Test für „jünger als N Tage“?** → `-mtime -N`
+
+---
+
+## Kapitel 12 – `history`
+
+### Szene
+
+Terminals verraten sich durch `history`; du rekonstruierst Befehle.
+
+### Was macht der Befehl?
+
+`history` listet Verlauf, `!!` wiederholt letzten, `Ctrl‑R` sucht.
+
+### Cheat Sheet
+
+```bash
+history 20   # letzte 20 Befehle
+!!           # letzten wiederholen
+!42          # Eintrag 42 ausführen
+Ctrl-R ssh   # rückwärts nach "ssh"
+```
+
+### Hands‑on Mission ⏳
+
+Finde per `Ctrl‑R` deinen letzten `grep`‑Befehl und führe ihn erneut aus.
+
+### Quizfrage
+
+**Shortcut für Rückwärts‑Suche?** → `Ctrl-R`
+
+---
+
+## Kapitel 13 – `man`, `help`, `whatis`
+
+### Szene
+
+Holmes stöbert in Folianten; du liest Manpages.
+
+### Cheat Sheet
+
+```bash
+man ls           # Handbuch
+help cd          # Shell‑Builtin
+whatis grep      # Kurzbeschreibung
+apropos network  # Schlagwortsuche
+```
+
+### Hands‑on Mission 📖
+
+`man cp`, suche `/EXAMPLES`, blättere mit `n` zum nächsten Treffer.
+
+### Quizfrage
+
+**Befehl für Kurzbeschreibung?** → `whatis`
+
+---
+
+## Kapitel 14 – `alias`
+
+### Szene
+
+Im Diogenes‑Club erstellt ihr Kürzel für lange Befehle.
+
+### Cheat Sheet
+
+```bash
+alias              # alle anzeigen
+alias gs="git status"
+unalias gs
+source ~/.bashrc   # Reload
+```
+
+### Hands‑on Mission ⚙️
+
+Füge `alias ll="ls -lah"` deiner `~/.bashrc` hinzu und lade sie.
+
+### Quizfrage
+
+**Befehl, um Shell‑Startskript neu zu laden?** → `source ~/.bashrc`
+
+---
+
+## Kapitel 15 – `exit`
+
+### Szene
+
+Fall gelöst – ein letzter `exit` beendet die Sitzung.
+
+### Cheat Sheet
+
+```bash
+exit 0   # erfolgreich
+exit 1   # Fehler
+logout   # bei Login‑Shells
+Ctrl-D   # EOF‑Shortcut
+```
+
+### Hands‑on Mission 🏁
+
+Beende deine Shell (Ctrl‑D). `echo $?` sollte `0` liefern.
+
+### Quizfrage
+
+**Exit‑Code für Erfolg?** → `0`
+
+---
+
+## Lösung (Spoiler)
+
+<details>
+<summary>Walk‑through anzeigen</summary>
+
+1. `pwd` – Basislager erkannt.
+2. `ls` – Dot‑File `.secret_route` entdeckt.
+3. `cd` – Logs geprüft.
+4. `touch` – Spur gelegt.
+5. `less` – „Suspicious“‑Eintrag gefunden.
+6. `cp` – Dossier gesichert.
+7. `mv` – Geheimbotschaft umbenannt.
+8. `mkdir` – Tresor erstellt.
+9. `rm` – Falle entschärft.
+10. `file` – Binärdatei entlarvt.
+11. `find` – Telegrammdateien aufgespürt.
+12. `history` – Täterkommandos nachvollzogen.
+13. `man` – Syntax geprüft.
+14. `alias` – schnelle Skripte gebaut.
+15. `exit` – Fall beendet.
+
+</details>
