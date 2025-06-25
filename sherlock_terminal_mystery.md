@@ -68,19 +68,32 @@ pwd -P    # physischer Pfad, Symlinks aufgelöst
 
 > **Symlink‑Mini‑Exkurs:** Ein symbolischer Link ist wie ein Weg­weiser. `pwd -P` folgt dem Pfad bis zur echten Tür.
 
-### Beispiele aus dem Fall
+---
+
+### ⌨️ Schritt-für-Schritt-Anleitung
 
 ```bash
-$ pwd
-/home/holmes/Investigation
-$ ln -s /home/holmes/Investigation ~/Investigation_symlink
-$ cd ~/Investigation_symlink && pwd      # zeigt Linkpfad
-$ pwd -P                                 # zeigt echten Pfad
+# 1 : Ins Home-Verzeichnis wechseln
+cd ~
+
+# 2 : (Nur beim 1. Mal) symbolischen Link anlegen
+ln -s ~/Investigation ~/Investigation_symlink
+
+# 3 : In den Symlink hineingehen
+cd ~/Investigation_symlink
+
+# 4 : Pfade vergleichen
+pwd        # zeigt logischen Pfad  →  /home/<user>/Investigation_symlink
+pwd -P     # zeigt physischen Pfad →  /home/<user>/Investigation
 ```
 
-### Hands‑on‑Mission 🔍
+> **Merke:** Die Umgebungsvariable `$PWD` enthält *immer* den logischen Pfad.   
+> Für Skripte, die den echten Ort brauchen, verwende `$(pwd -P)`.
 
-Führe `pwd` und `pwd -P` im Verzeichnis `~/Investigation_symlink` aus. Notiere beide Ergebnisse: logisch vs. physisch.
+### 📝 Hands-on-Mission 🔍
+
+1. Führe die vier Kommandos oben aus.  
+2. Notiere beide Ausgaben (`pwd`, `pwd -P`) in dein Notizbuch.  
 
 ### Holmesian Insight
 
@@ -88,8 +101,8 @@ Führe `pwd` und `pwd -P` im Verzeichnis `~/Investigation_symlink` aus. Notiere 
 
 ### Quizfrage
 
-Welches Flag löst Symlinks? → ``
-
+Welches Flag **löst** Symlinks auf und zeigt den physischen Pfad?  
+<details><summary>Klicke für die Antwort</summary><code>-P</code></details>
 ---
 
 ## Kapitel 2 – `ls`
