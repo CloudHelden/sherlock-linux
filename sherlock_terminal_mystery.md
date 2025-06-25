@@ -456,52 +456,107 @@ Welche Taste beendet `less`?
 
 ## Kapitel 6 – `cp`
 
-### Szene 📦
+> **Lernziel:** Dateien / Ordner sicher duplizieren, Attribute bewahren, Überschreiben vermeiden.
 
-*Bahndepot King’s Cross, 02:05 Uhr.* Dampflokomotiven zischen, Funken stieben an gusseisernen Bögen empor. Zwischen riesigen Holzcontainers steht eine einzelne Kiste mit dem blassen Stempel *Dossier 42*. Eine Bahnhofsuhr tickt – jede Sekunde ein Hammerschlag.  
-Holmes hebt das Siegel und nickt: „Original für Scotland Yard, Kopie für uns – mit allen Metadaten, versteht sich.“  
-Du baust das Terminal auf einem Eisenbahn‑Gepäckwagen auf; das Stahlrad darunter quietscht. Mit `cp -a -v` versiegelst du den perfekten Zwilling, inkl. Rechte, Zeitstempel, Symbol­links – nichts entgeht der Archivoption `-a`.
+---
 
-### Was macht der Befehl?
+### 📦 Szene
 
-`cp` **kopiert Dateien oder Ordner**.  
-* `-r`: Ordner samt Inhalt.  
-* `-a`: alles mitnehmen (Rechte, Datum).  
-* `-i`: vor Überschreiben fragen.
+*Bahndepot King’s Cross, 02 : 05 Uhr.*  
+Dampflokomotiven zischen, Funken stieben an gusseisernen Bögen empor. Zwischen riesigen Holzcontainern steht **eine einzelne Kiste** mit dem blassen Stempel **Dossier 42**. Ticktack einer Bahnhofsuhr – jede Sekunde ein Hammerschlag.
 
-### Warum wichtig?
+Holmes bricht das Siegel, sieht dich an:
 
-- **Backups** – Arbeitskopien, bevor du editierst.
-- **Staging** – Files von Stage→Prod.
+> „Original für Scotland Yard, Kopie für uns – **mit sämtlichen Metadaten**.“
 
-### Cheat‑Sheet
+Du stellst dein Terminal auf einen quietschenden Gepäckwagen.  
+`cp -a -v` versiegelt den perfekten Zwilling: Rechte, Zeitstempel und even­tuelle Symlinks – nichts entgeht der Archivoption `-a`.
+
+---
+
+### 🛠️ Was macht `cp`?
+
+| Option | Wirkung | Praxis-Beispiel |
+|--------|---------|-----------------|
+| _(ohne)_ | Datei(en) kopieren | `cp foo.txt bar.txt` |
+| `-i` | **i**nteraktiv – fragt vor Überschreiben | `cp -i foo.txt bar.txt` |
+| `-r` | Ordner **r**ekursiv kopieren | `cp -r dir backup_dir` |
+| `-v` | **v**erbose – zeigt jede Kopie | `cp -v src dest/` |
+| `-a` | **a**rchive: Rechte, Zeit & Links beibehalten (`-dR --preserve=all`) | `cp -a src/ dest/` |
+
+> ⚠️ **Achtung**: Ohne `-i` überschreibt `cp` kommentarlos gleichnamige Dateien!
+
+---
+
+### 🚩 Warum wichtig?
+
+1. **Backups** – Arbeitskopien anlegen, bevor du editierst.  
+2. **Staging** – Dateien aus Dev → Prod fold­ern schieben, ohne Attribute zu verlieren.  
+3. **Deploy-Skripte** – schnell & portabel, da `cp` auf jedem POSIX‑System vorhanden ist.
+
+---
+
+### 📑 Cheat‑Sheet
 
 ```bash
-cp file     dest
-cp -i       # nachfragen
-cp -r dir   dest
-cp -v       # verbose
-cp -a       # archiviert (behält Rechte, Zeiten, Links)
+cp file          copy/
+cp -i file copy/             # fragt vorher
+cp -vr src/ data_backup/     # rekursiv, verbose
+cp -a dossier/ Case42/       # inkl. Rechte, Zeiten & Links
 ```
 
-### Beispiele aus dem Fall
+---
+
+### ⚡ Beispiel aus dem Fall
 
 ```bash
-$ cp -a -v ~/Investigation/dossier ~/Archive/Case42/
+# Dossier 42 als 1‑zu‑1 Kopie sichern
+cp -a -v ~/Investigation/dossier ~/Archive/Case42/
 ```
 
-### Hands‑on‑Mission 📄
+Ausgabe (gekürzt):
 
-Kopiere `dossier` rekursiv nach `~/Archive/Case42`, behalte Rechte & Zeiten (`-a`).
+```
+'~/Investigation/dossier' -> '~/Archive/Case42/dossier'
+'~/Investigation/dossier/file1.txt' -> '~/Archive/Case42/dossier/file1.txt'
+…
+```
 
-### Holmesian Insight
+---
 
-> `rsync -a` ist moderner und schneller für viele Dateien, behält aber dieselben Attribute – beachte für große Backups.
+### 👣 Hands‑on‑Mission
 
-### Quizfrage
+1. **Dossier kopieren** – alle Attribute bewahren
+   ```bash
+   cp -a -v ~/Investigation/dossier ~/Archive/Case42/
+   ```
 
-Flag zum Beibehalten aller Attribute? → ``
+3. **Vergleichen** – Stimmen Rechte & Größe überein?
+   ```bash
+   ls -ld ~/Investigation/dossier
+   ls -ld ~/Archive/Case42/dossier
+   ```
 
+4. **Test: Überschreiben verhindern**  
+   ```bash
+   cp -i ~/Investigation/note.txt ~/Archive/Case42/note.txt
+   # → Terminal fragt: überschreiben?  (y/N)
+   ```
+
+> ✏️ Notiere, ob die beiden `ls -ld`‑Ausgaben identisch sind.
+
+---
+
+### 🧠 Holmesian Insight
+
+> Für **große Mengen** oder **remote Backups** ist `rsync -a --progress` oft schneller und kann nur die geänderten Blöcke übertragen – behält aber dieselben Attribute.
+
+---
+
+### ❓ Quizfrage
+
+Mit welchem Flag behält `cp` **alle** Zeitstempel und Rechte?  
+<details><summary>Antwort anzeigen</summary><code>-a</code></details>
 ---
 
 ## Kapitel 7 – `mv`
