@@ -662,6 +662,7 @@ mv -b secret.txt umbrella_letter.txt
 
 Welches Flag erstellt automatisch eine **Backup‑Kopie** mit Tilde (`~`) am Ende?  
 <details><summary>Antwort anzeigen</summary><code>-b</code></details>
+
 ## Kapitel 8 – `mkdir`
 
 ### Szene 🏛️
