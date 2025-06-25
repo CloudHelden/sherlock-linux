@@ -350,54 +350,107 @@ Welches Flag aktualisiert **nur den Zugriffs-Zeitstempel**?
 
 ## Kapitel 5 – `cat` & `less`
 
-### Szene 📖
+> **Lernziel:** kleine Dateien schnell ansehen (`cat`) – große Dateien bequem durchblättern (`less`) – Such‑ & Filterfunktionen nutzen
 
-*Baker Street, Kaminzimmer, 00:45 Uhr.* Wind heult im Schornstein, wirbelt Funken aus dem Kamin, die kurz in der Luft tanzen. Auf dem Mahagoni‑Tisch liegen zwei Dokumente: eine zusammengefaltete Notiz, deren Ecken Teeflecken zieren, und ein rußgeschwärztes Logbuch, so schwer, dass die Tischplatte leise knackt.  
-Holmes zündet eine Öllampe an, die Flamme spiegelt sich in den Facetten des Schliffkristall‑Decanters. „Beginnen wir mit dem Kleinen“, flüstert er. `cat note.txt` lässt die lakonische Botschaft aufblitzen – drei kryptische Zeilen, kaum mehr als ein Rätsel im Rätsel.  
-Für das Logbuch aber brauchst du eine Lupe für Bits: `less`. Die Seiten des digitalen Folianten klappen virtuell auf, und das Rauschen vergangener Prozesse füllt den Raum wie leises Gemurmel in einer Bibliothek.
+---
 
-### Was machen die Befehle?
+### 📖 Szene
 
-#### Was macht `cat`?
-Zeigt den kompletten Datei­inhalt sofort im Terminal – gut für kurze Dateien.
+*Baker Street 221B, Kaminzimmer, 00 : 45 Uhr.*  
+Wind heult im Schornstein, wirbelt Funken aus dem Kamin, die kurz in der Luft tanzen.  
+Auf Sherlocks Mahagoni‑Tisch liegen zwei Fundstücke:
 
-#### Was macht `less`?
-Öffnet eine Datei **seitenweise**: scrollen mit Pfeilen, suchen mit `/Text`, beenden mit `q` – ideal für lange Logs.
+1. **note.txt** – eine zusammengefaltete Notiz, Teeflecken zieren die Ecken.  
+2. **server.log** – ein rußgeschwärztes Logbuch, so schwer, dass das Holz knackt.
 
-### Warum wichtig?
+Holmes zündet die Öllampe. „Beginnen wir mit dem Kleinen“, flüstert er.  
+`cat note.txt` lässt drei kryptische Zeilen aufblitzen – ein Rätsel im Rätsel.  
+Dann ruft er: „Für das Logbuch brauchen wir eine Lupe für Bits!“  
+`less server.log` klappt den digitalen Folianten seitenweise auf; das Rauschen alter Prozesse füllt den Raum wie leises Bibliotheks‑Gemurmel.
 
-- Schnellprüfung kleiner Dateien.
-- Komfortables Blättern durch lange Logs.
-- Kombination mit Pipes (`|`) für Previews.
+---
 
-### Cheat‑Sheet
+### 🛠️ Was machen die Befehle?
 
-| Taste in `less`  | Aktion                        |
-| ---------------- | ----------------------------- |
-| `Space` / `PgDn` | eine Seite vor                |
-| `b` / `PgUp`     | zurück                        |
-| `/muster`        | vorwärts suchen               |
-| `n` / `N`        | nächster / vorheriger Treffer |
-| `q`              | beenden                       |
+| Befehl | Wann einsetzen? | Kern‑Eigenschaft |
+|--------|-----------------|------------------|
+| `cat file` | **kleine** Dateien | Inhalt sofort komplett anzeigen |
+| `less file` | **mittlere & große** Dateien | Blättern, suchen, filtern – ohne Speicherfresser |
 
-### Beispiele aus dem Fall
+---
+
+### 🔍 Warum wichtig?
+
+* **Schnellcheck** – Konfig‑ oder Notizdateien im Handumdrehen öffnen.  
+* **Log‑Forensik** – Tausende Zeilen scrollen & filtern, ohne Editor zu starten.  
+* **Pipelines** – `cat file | grep pattern` oder `grep pattern file | less`.
+
+---
+
+### 📑 Cheat‑Sheet für `less`
+
+| Taste | Aktion |
+|-------|--------|
+| `Space` / `PgDn` | eine Seite vor |
+| `b` / `PgUp` | eine Seite zurück |
+| `/Text` | vorwärts suchen |
+| `?Text` | rückwärts suchen |
+| `n` / `N` | nächster / vorheriger Treffer |
+| `&Muster` | **Filter** – nur Zeilen mit Muster zeigen |
+| `g` / `G` | Anfang / Ende |
+| `q` | beenden |
+
+> **Tipp:** In `less` zeigt `:n` die nächste Datei einer Übergabe­liste; `:p` die vorherige.
+
+---
+
+### ⚡ Beispiel­Commands
 
 ```bash
-$ cat ~/Investigation/note.txt
-$ less +/Suspicious ~/Investigation/server.log   # direkt zur Fundstelle
+# 1) Kleine Notiz einfach anzeigen
+cat ~/Investigation/note.txt
+
+# 2) Server‑Log seitenweise öffnen, direkt zum Wort "Suspicious" springen
+less +/Suspicious ~/Investigation/server.log
 ```
 
-### Hands‑on‑Mission 📜
+---
 
-Öffne `server.log` mit `less` und filtere (`&Error`) alle Zeilen, die „Error“ enthalten.
+### 👣 Hands‑on‑Mission
 
-### Holmesian Insight
+1. **Wechsle in den Ermittlungsordner**
+   ```bash
+   cd ~/Investigation
+   ```
 
-> `cat file | less` ist ineffizient – nutze direkt `less file`. Pipes sind nur nötig, wenn du stdout weiterreichen willst.
+2. **Öffne das Logbuch**
+   ```bash
+   less server.log
+   ```
 
-### Quizfrage
+3. **Filtere alle Zeilen, die „Error“ enthalten**  
+   *(Innerhalb von `less` tippen)*  
+   ```
+   &Error
+   ```
+   Mit `n` springst du durch die Treffer.  
+   Drücke `q`, um `less` wieder zu verlassen.
 
-Taste zum Schließen von `less`? → ``
+> ✏️ Notiere, wie viele Error‑Zeilen angezeigt wurden.
+
+---
+
+### 🧠 Holmesian Insight
+
+> `cat file | less` ist unnötig – `less` kann Dateien selbst lesen.  
+> Eine **Pipe** zu `less` brauchst du nur, wenn der vorangestellte Befehl *transformiert* (z. B. `grep`, `jq`, `sort … | less`).
+
+---
+
+### ❓ Quizfrage
+
+Welche Taste beendet `less`?  
+<details><summary>Antwort anzeigen</summary><code>q</code></details>
 
 ---
 
